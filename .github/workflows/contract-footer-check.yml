@@ -1,0 +1,37 @@
+name: contract-footer-check
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+jobs:
+  check-footers-and-label:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get changed files
+        id: files
+        run: |
+          git fetch origin main:main
+          CHANGED=$(git diff --name-only --diff-filter=AM origin/main...HEAD | grep -E '^(contracts|governance)/.*\.md$' || true)
+          echo "changed<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Ensure label present if contracts/governance touched
+        if: steps.files.outputs.changed != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const hasLabel = pr.labels.some(l => l.name === 'contract-change');
+            if (!hasLabel) core.setFailed('Missing required label: contract-change for changes under /contracts or /governance');
+      - name: Verify "Approved by" footer on touched files
+        if: steps.files.outputs.changed != ''
+        run: |
+          MISSING=0
+          while read -r f; do
+            [ -z "$f" ] && continue
+            grep -q "Approved by:" "$f" || { echo "Missing footer in $f"; MISSING=1; }
+          done <<< "${{ steps.files.outputs.changed }}"
+          exit $MISSING

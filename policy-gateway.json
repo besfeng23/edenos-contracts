@@ -1,0 +1,13 @@
+{
+ "Version":"2012-10-17","Statement":[
+  {"Effect":"Allow","Action":["dynamodb:*"],"Resource":[
+    "arn:aws:dynamodb:ap-southeast-1:165576755829:table/edenos_tasks",
+    "arn:aws:dynamodb:ap-southeast-1:165576755829:table/edenos_leases",
+    "arn:aws:dynamodb:ap-southeast-1:165576755829:table/edenos_heartbeats",
+    "arn:aws:dynamodb:ap-southeast-1:165576755829:table/edenos_budgets"
+  ]},
+  {"Effect":"Allow","Action":["s3:PutObject","s3:ListBucket","s3:GetBucketLocation"],"Resource":[
+    "arn:aws:s3:::edenos-artifacts-165576755829-ap-southeast-1","arn:aws:s3:::edenos-artifacts-165576755829-ap-southeast-1/*",
+    "arn:aws:s3:::edenos-lake-165576755829-ap-southeast-1","arn:aws:s3:::edenos-lake-165576755829-ap-southeast-1/*"
+  ]}
+ ]}
