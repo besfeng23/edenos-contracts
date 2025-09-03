@@ -7,4 +7,4 @@ Canonical specifications for EdenOS task orchestration.
 2. No signature, no event.
 3. No PR without run_id.
 
-These rules are absolute.
+These rules are absolute.# Test deploy event
