@@ -45,10 +45,10 @@ jobs:
           JSON
           openssl dgst -sha256 -binary event.json | base64 -w0 > digest.b64
           DIGEST=$(cat digest.b64)
-          SIG=$(aws kms sign --key-id "$KMS_KEY_ID" --signing-algorithm ECDSA_SHA_256 --message-type DIGEST --message "$DIGEST" --query Signature --output text)
+          SIG=$(aws kms sign --key-id "${{ vars.KMS_KEY_ID }}" --signing-algorithm ECDSA_SHA_256 --message-type DIGEST --message "$DIGEST" --query Signature --output text)
           jq --arg sig "$SIG" '. + {signature:$sig}' event.json > event_signed.json
           echo "dt=$(date -u +%F)" >> $GITHUB_OUTPUT
 
       - name: Upload to lake
         run: |
-          aws s3 cp event_signed.json "s3://$LAKE_BUCKET/events/dt=${{ steps.prep.outputs.dt }}/gha-deploy-${{ github.run_id }}.json"
+          aws s3 cp event_signed.json "s3://${{ vars.LAKE_BUCKET }}/events/dt=${{ steps.prep.outputs.dt }}/gha-deploy-${{ github.run_id }}.json"
