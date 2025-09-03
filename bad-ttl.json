@@ -1,0 +1,11 @@
+{
+  "tenant":"fxpass",
+  "intent":"micro",
+  "scope":{"services_touched":1,"estimated_files_changed":3,"infra_changes":false},
+  "slo":{"max_latency_s":7200,"heartbeat_s":60,"rollout_policy":"none","auto_rollback":false},
+  "budget":{"agent_minutes_max":30,"ci_minutes_max":60,"cloud_spend_max_usd":5},
+  "auth_ref":"opaque-demo",
+  "inputs":{"task":"add hello endpoint"},
+  "labels":{"risk":"low"},
+  "ttl_s": 30
+}
