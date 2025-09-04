@@ -1,0 +1,5 @@
+{ "tenant":"fxpass","intent":"macro",
+  "scope":{"services_touched":2,"estimated_files_changed":8,"infra_changes":true},
+  "slo":{"max_latency_s":7200,"heartbeat_s":60,"rollout_policy":"canary_5_25_100","auto_rollback":true},
+  "budget":{"agent_minutes_max":60,"ci_minutes_max":120,"cloud_spend_max_usd":20},
+  "auth_ref":"opaque","inputs":{"task":"schema bump + rollout"} }
